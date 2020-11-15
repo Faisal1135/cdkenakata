@@ -1,68 +1,53 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:provider/provider.dart';
+import 'package:woocommerce/woocommerce.dart';
 
 import '../../../constants.dart';
 
 // We need satefull widget for our categories
 
-class Categories extends StatefulWidget {
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
-
-class _CategoriesState extends State<Categories> {
-  List<String> categories = ["Hand bag", "Jewellery", "Footwear", "Dresses"];
-
+class Categories extends StatelessWidget {
   // By default our first item will be selected
-  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    categories =
-        Provider.of<ProductProvider>(context).tags.map((e) => e.name).toList();
+    final categories = Provider.of<ProductProvider>(context).tags;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
-      child: SizedBox(
-        height: 25,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) => buildCategory(index, categories),
-        ),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
+        child: _buildCarosol(categories));
   }
 
-  Widget buildCategory(int index, List<String> categories) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                categories[index],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: selectedIndex == index ? kTextColor : kTextLightColor,
+  Widget _buildCarosol(List<WooProductCategory> catagorie) {
+    return GFItemsCarousel(
+      rowCount: 3,
+      children: catagorie.map(
+        (cat) {
+          return GestureDetector(
+            onTap: () {},
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    child: cat.image != null
+                        ? CachedNetworkImage(
+                            imageUrl: cat.image?.src,
+                            fit: BoxFit.cover,
+                            width: 1000,
+                          )
+                        : Container(), //Image.network(url, fit: BoxFit.cover, width: 1000.0),
+                  ),
                 ),
-              ),
+                Text(cat.name)
+              ],
             ),
-            Container(
-              margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
-              height: 2,
-              width: 30,
-              color: selectedIndex == index ? Colors.black : Colors.transparent,
-            )
-          ],
-        ),
-      ),
+          );
+        },
+      ).toList(),
     );
   }
 }

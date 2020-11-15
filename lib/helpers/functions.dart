@@ -6,7 +6,7 @@ import 'package:woocommerce/woocommerce.dart';
 
 import '../constants.dart';
 
-buildProductGrid(List<WooProduct> products) {
+Widget buildProductGrid(List<WooProduct> products) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
     child: GridView.builder(

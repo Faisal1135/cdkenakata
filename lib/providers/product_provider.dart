@@ -15,10 +15,11 @@ class ProductProvider extends ChangeNotifier {
   Future<void> fetchAndAddProducts() async {
     try {
       final fetchProducts =
-          await wooCommerce.getProducts(page: pageNo, perPage: 10);
+          await wooCommerce.getProducts(page: pageNo, perPage: 50);
       if (fetchProducts.length < 10) {
         hasData = false;
       }
+
       _products.addAll(fetchProducts);
       pageNo++;
 
@@ -34,7 +35,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<void> fetchTags() async {
-    final fetchTags = await wooCommerce.getProductCategories();
+    final fetchTags = await wooCommerce.getProductCategories(perPage: 100);
     _tags = fetchTags;
 
     notifyListeners();

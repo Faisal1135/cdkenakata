@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:flutter/material.dart';
@@ -49,12 +51,17 @@ class HomeScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+      title: Text(
+        'CD kenakata',
+        style:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
       backgroundColor: Colors.white,
       elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/back.svg"),
-        onPressed: () {},
-      ),
+      // leading: IconButton(
+      //   icon: SvgPicture.asset("assets/icons/back.svg"),
+      //   onPressed: () {},
+      // ),
       actions: <Widget>[
         IconButton(
           icon: SvgPicture.asset(
