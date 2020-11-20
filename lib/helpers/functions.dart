@@ -33,3 +33,37 @@ Widget buildProductGrid(List<WooProduct> products) {
     ),
   );
 }
+
+class ProductGrid extends StatelessWidget {
+  final List<WooProduct> products;
+
+  const ProductGrid({Key key, this.products}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+      child: GridView.builder(
+        primary: false,
+        shrinkWrap: true,
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: kDefaultPaddin,
+          crossAxisSpacing: kDefaultPaddin,
+          childAspectRatio: 0.75,
+        ),
+        itemBuilder: (context, index) => ItemCard(
+          product: products[index],
+          press: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsScreen(
+                product: products[index],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

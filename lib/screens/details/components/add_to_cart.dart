@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:woocommerce/woocommerce.dart';
 
 import '../../../constants.dart';
+import '../../../providers/cart_Provider.dart';
 
 class AddToCart extends StatelessWidget {
   const AddToCart({
@@ -30,9 +32,9 @@ class AddToCart extends StatelessWidget {
               icon: SvgPicture.asset(
                 "assets/icons/add_to_cart.svg",
               ),
-              onPressed: () async {
-                await wooCommerce.addToMyCart(
-                    itemId: product.id.toString(), quantity: 1.toString());
+              onPressed: () {
+                Provider.of<CartProvider>(context, listen: false)
+                    .addToItems(product: product);
               },
             ),
           ),

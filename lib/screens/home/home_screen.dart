@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
+import 'package:cdkenakata/widgets/badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../screens/home/components/body.dart';
+import '../../providers/cart_Provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -71,15 +73,19 @@ class HomeScreen extends StatelessWidget {
           ),
           onPressed: () {},
         ),
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/cart.svg",
-            // By default our  icon color is white
-            color: kTextColor,
+        Consumer<CartProvider>(
+          builder: (_, carts, child) => Badge(
+            child: child,
+            value: carts.numberOfItems.toString(),
           ),
-          onPressed: () async {
-            await Navigator.pushNamed(context, CartScreen.routeName);
-          },
+          child: IconButton(
+            icon: Icon(
+              Icons.add_shopping_cart,
+              color: Colors.black,
+            ),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(CartScreen.routerName),
+          ),
         ),
         SizedBox(width: kDefaultPaddin / 2)
       ],

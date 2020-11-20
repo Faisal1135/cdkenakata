@@ -1,48 +1,149 @@
-import 'package:cdkenakata/constants.dart';
+import 'package:cdkenakata/providers/cart_Provider.dart';
+import 'package:cdkenakata/widgets/cartItemCard.dart';
 import 'package:flutter/material.dart';
-import 'package:woocommerce/woocommerce.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({Key key}) : super(key: key);
-  static const routeName = "CartSCREEN";
+import 'package:provider/provider.dart';
+
+class CartScreen extends StatefulWidget {
+  static const routerName = "/carts";
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  var isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Cart'),
-      ),
-      body: FutureBuilder<WooCart>(
-        future: wooCommerce.getMyCart(),
-        builder: (BuildContext context, AsyncSnapshot<WooCart> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          final cartItems = snapshot.data.items;
-
-          return ListView.builder(
-            itemCount: cartItems.length,
-            itemBuilder: (BuildContext context, int index) {
-              final item = cartItems[index];
-
-              return ListTile(
-                leading: Image.network(item.images.first.src),
-                title: Text(item.name),
-                subtitle: Center(
-                  child: Text(item.price),
+    // final cart = Provider.of<Cart>(context);
+    return Consumer<CartProvider>(
+      builder: (BuildContext context, CartProvider cart, Widget child) =>
+          Scaffold(
+        appBar: AppBar(
+          title: Text("Your Cart"),
+        ),
+        bottomSheet: Container(
+          height: 50.0,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, -1),
+                blurRadius: 6.0,
+              ),
+            ],
+          ),
+        ),
+        body: Column(
+          children: <Widget>[
+            Card(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Total",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    Chip(
+                      elevation: 4,
+                      label: Text(
+                        "\$ ${cart.totalAmount.toStringAsFixed(2)}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                  ],
                 ),
-                trailing: Text(item.quantity.toString()),
-              );
-            },
-          );
-        },
+              ),
+            ),
+            Expanded(
+              child: ListView.separated(
+                itemCount: cart.items.values.toList().length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index < cart.items.values.length) {
+                    final currentCart = cart.items.values.toList()[index];
+                    return CartitemCard(
+                      cart: currentCart,
+                    );
+                  }
+                  return Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Estimated Delivery Time:',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              '25 min',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Total Cost:',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              '\$${cart.totalAmount.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: Colors.green[700],
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 80.0),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    height: 1.0,
+                    color: Colors.grey,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+// ListView.builder(
+//               itemCount: cart.items.length,
+//               itemBuilder: (BuildContext context, int index) {
+// return CartitemCard(
+//   title: sortedCart[index].title,
+//   price: sortedCart[index].price,
+//   quantity: sortedCart[index].quantity,
+//   id: cart.items.values.toList()[index].id,
+//   productID: cart.items.keys.toList()[index],
+// );
+//               },
+//             ),

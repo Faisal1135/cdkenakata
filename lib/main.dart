@@ -1,3 +1,4 @@
+import 'package:cdkenakata/providers/cart_Provider.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: ProductProvider()),
+        ChangeNotifierProvider.value(value: CartProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

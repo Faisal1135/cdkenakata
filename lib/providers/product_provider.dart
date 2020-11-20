@@ -4,7 +4,6 @@ import 'package:woocommerce/woocommerce.dart';
 
 class ProductProvider extends ChangeNotifier {
   List<WooProduct> _products = List<WooProduct>();
-
   List<WooProduct> get products => [..._products];
   List<WooProductCategory> _tags = List<WooProductCategory>();
   List<WooProductCategory> get tags => [..._tags];
