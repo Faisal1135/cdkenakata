@@ -68,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
                   if (index < cart.items.values.length) {
                     final currentCart = cart.items.values.toList()[index];
                     return CartitemCard(
-                      cart: currentCart,
+                      currentCart: currentCart,
                     );
                   }
                   return Padding(

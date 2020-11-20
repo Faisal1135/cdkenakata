@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeScreen(),
         routes: {
-          CartScreen.routeName: (context) => CartScreen(),
+          CartScreen.routerName: (context) => CartScreen(),
         },
       ),
     );

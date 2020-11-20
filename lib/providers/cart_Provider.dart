@@ -52,7 +52,7 @@ class CartProvider extends ChangeNotifier {
     double total = 0.0;
 
     _items.forEach((k, cart) {
-      total += double.parse(cart.products.regularPrice) * cart.quantity;
+      total += double.tryParse(cart.products.price) * cart.quantity;
     });
     return total;
   }
