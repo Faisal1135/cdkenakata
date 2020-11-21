@@ -1,5 +1,6 @@
 import 'package:cdkenakata/helpers/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:woocommerce/woocommerce.dart';
 import '../../../constants.dart';
 import 'categorries.dart';
@@ -13,6 +14,20 @@ class Body extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        GFCarousel(
+          items: imageList.map(
+            (url) {
+              return Container(
+                margin: EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
+                ),
+              );
+            },
+          ).toList(),
+          onPageChanged: (index) {},
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: kDefaultPaddin, vertical: kDefaultPaddin),

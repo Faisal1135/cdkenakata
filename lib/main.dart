@@ -1,5 +1,6 @@
 import 'package:cdkenakata/providers/cart_Provider.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
+import 'package:cdkenakata/screens/allCatagories.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:cdkenakata/screens/catagoriesProduct.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeScreen(),
         routes: {
+          AllCatagories.routeName: (context) => AllCatagories(),
           CatagoriesProduct.routeName: (context) => CatagoriesProduct(),
           CartScreen.routerName: (context) => CartScreen(),
         },

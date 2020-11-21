@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
-import 'package:cdkenakata/screens/catagoriesProduct.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
-import 'package:woocommerce/woocommerce.dart';
+import '../../../helpers/functions.dart';
 
 import '../../../constants.dart';
 
@@ -18,51 +15,7 @@ class Categories extends StatelessWidget {
     final categories = Provider.of<ProductProvider>(context).fetchHomeCat;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
-      child: _buildCarosol(categories, context),
-    );
-  }
-
-  Widget _buildCarosol(
-      List<WooProductCategory> catagorie, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: GridView.count(
-        primary: false,
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        mainAxisSpacing: kDefaultPaddin / 2,
-        crossAxisSpacing: kDefaultPaddin / 2,
-        childAspectRatio: 0.75,
-        children: [
-          ...catagorie.map((cat) => buildCard(context, cat)).toList(),
-          InkWell(
-            onTap: () {},
-            child: GFAvatar(
-              backgroundColor: Colors.amber,
-              shape: GFAvatarShape.standard,
-              child: Text('More'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  InkWell buildCard(context, WooProductCategory catagorie) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, CatagoriesProduct.routeName,
-            arguments: catagorie);
-      },
-      child: GFAvatar(
-        backgroundImage: CachedNetworkImageProvider(catagorie.image?.src),
-        shape: GFAvatarShape.standard,
-        child: Text(
-          catagorie.name,
-          style: const TextStyle(
-              color: Colors.white, backgroundColor: Colors.black45),
-        ),
-      ),
+      child: buildCatagorieGrid(categories, context),
     );
   }
 }
