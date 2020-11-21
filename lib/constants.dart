@@ -14,3 +14,5 @@ WooCommerce wooCommerce = WooCommerce(
   consumerSecret: consumerSecret,
   isDebug: true,
 );
+
+List<int> showCat = [265, 29, 70, 47, 56, 83];

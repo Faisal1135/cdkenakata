@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:woocommerce/woocommerce.dart';
 
@@ -19,14 +20,11 @@ class ProductTitleWithImage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Hero(
-            tag: "${product.id}",
-            child: Container(
-              child: Image.network(
-                product.images[0].src,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+              tag: "${product.id}",
+              child: CachedNetworkImage(
+                imageUrl: product.images.first.src,
+                fit: BoxFit.cover,
+              )),
           Text(
             product.name,
             style: Theme.of(context)
@@ -58,3 +56,35 @@ class ProductTitleWithImage extends StatelessWidget {
     );
   }
 }
+
+// Container(
+//                     child: Image.network(
+//                       product.images[0].src,
+//                       fit: BoxFit.fill,
+//                     ),
+//                   );
+// product.images.length > 1
+//                 ? Container(
+//                     height: 400,
+//                     child: ListView(
+//                       primary: false,
+//                       shrinkWrap: true,
+//                       scrollDirection: Axis.horizontal,
+//                       children: product.images.map(
+//                         (img) {
+//                           return Container(
+//                             child: CachedNetworkImage(
+//                               fit: BoxFit.fill,
+//                               imageUrl: img.src,
+//                             ),
+//                           );
+//                         },
+//                       ).toList(),
+//                     ),
+//                   )
+//                 : Container(
+//                     child: Image.network(
+//                       product.images[0].src,
+//                       fit: BoxFit.fill,
+//                     ),
+//                   ),

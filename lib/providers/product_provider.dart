@@ -11,6 +11,9 @@ class ProductProvider extends ChangeNotifier {
   int pageNo = 1;
   bool hasData = true;
 
+  List<WooProductCategory> get fetchHomeCat =>
+      tags.where((cat) => showCat.contains(cat.id)).toList();
+
   Future<void> fetchAndAddProducts() async {
     try {
       final fetchProducts =
@@ -28,13 +31,18 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<WooProduct>> fetchProductByTags(String tag) async {
-    final productByTAG = await wooCommerce.getProducts(tag: tag);
+  Future<List<WooProduct>> fetchProductByTags(WooProductCategory tag) async {
+    if (tag.count == 0) {
+      return [];
+    }
+    final productByTAG =
+        await wooCommerce.getProducts(category: tag.id.toString());
     return productByTAG;
   }
 
   Future<void> fetchTags() async {
     final fetchTags = await wooCommerce.getProductCategories(perPage: 100);
+    fetchTags.removeWhere((tag) => tag.image == null);
     _tags = fetchTags;
 
     notifyListeners();
@@ -42,6 +50,7 @@ class ProductProvider extends ChangeNotifier {
 
   Future fetchtagAndProd() async {
     await fetchTags();
+
     await fetchAndAddProducts();
   }
 }

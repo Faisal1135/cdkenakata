@@ -1,3 +1,9 @@
+import 'package:cdkenakata/providers/cart_Provider.dart';
+import 'package:cdkenakata/screens/cartScreen.dart';
+import 'package:cdkenakata/widgets/badge.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
 import '../screens/details/details_screen.dart';
 
 import '../screens/home/components/item_card.dart';
@@ -31,6 +37,46 @@ Widget buildProductGrid(List<WooProduct> products) {
         ),
       ),
     ),
+  );
+}
+
+AppBar buildAppBar(BuildContext context, String title) {
+  return AppBar(
+    title: Text(
+      title,
+      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    ),
+    backgroundColor: Colors.pinkAccent,
+    elevation: 0,
+    // leading: IconButton(
+    //   icon: SvgPicture.asset("assets/icons/back.svg"),
+    //   onPressed: () {},
+    // ),
+    actions: <Widget>[
+      IconButton(
+        icon: SvgPicture.asset(
+          "assets/icons/search.svg",
+          // By default our  icon color is white
+          color: kTextColor,
+        ),
+        onPressed: () {},
+      ),
+      Consumer<CartProvider>(
+        builder: (_, carts, child) => Badge(
+          child: child,
+          value: carts.numberOfItems.toString(),
+        ),
+        child: IconButton(
+          icon: Icon(
+            Icons.add_shopping_cart,
+            color: Colors.black,
+          ),
+          onPressed: () =>
+              Navigator.of(context).pushNamed(CartScreen.routerName),
+        ),
+      ),
+      SizedBox(width: kDefaultPaddin / 2)
+    ],
   );
 }
 

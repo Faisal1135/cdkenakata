@@ -1,6 +1,7 @@
 import 'package:cdkenakata/providers/cart_Provider.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
+import 'package:cdkenakata/screens/catagoriesProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './constants.dart';
@@ -23,11 +24,16 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'CDKenakata',
         theme: ThemeData(
-          textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+          primaryColor: Colors.amber,
+          canvasColor: Colors.grey.shade200,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: kTextColor,
+              ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: HomeScreen(),
         routes: {
+          CatagoriesProduct.routeName: (context) => CatagoriesProduct(),
           CartScreen.routerName: (context) => CartScreen(),
         },
       ),
