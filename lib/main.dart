@@ -3,6 +3,7 @@ import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/allCatagories.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:cdkenakata/screens/catagoriesProduct.dart';
+import 'package:cdkenakata/screens/createCustomet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './constants.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           AllCatagories.routeName: (context) => AllCatagories(),
+          CreateCustomerForm.routeName: (context) => CreateCustomerForm(),
           CatagoriesProduct.routeName: (context) => CatagoriesProduct(),
           CartScreen.routerName: (context) => CartScreen(),
         },

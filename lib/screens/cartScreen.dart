@@ -1,4 +1,5 @@
 import 'package:cdkenakata/providers/cart_Provider.dart';
+import 'package:cdkenakata/screens/createCustomet.dart';
 import 'package:cdkenakata/widgets/cartItemCard.dart';
 import 'package:flutter/material.dart';
 
@@ -23,18 +24,30 @@ class _CartScreenState extends State<CartScreen> {
         appBar: AppBar(
           title: Text("Your Cart"),
         ),
-        bottomSheet: Container(
-          height: 50.0,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, -1),
-                blurRadius: 6.0,
-              ),
-            ],
+        bottomSheet: InkWell(
+          onTap: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, CreateCustomerForm.routeName, (route) => false,
+                arguments: cart.items.values.toList());
+          },
+          child: Container(
+            child: Center(
+                child: Text(
+              'CheckOut',
+              style: Theme.of(context).textTheme.headline5,
+            )),
+            height: 50.0,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, -1),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
           ),
         ),
         body: Column(
