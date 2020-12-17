@@ -25,11 +25,13 @@ class _CartScreenState extends State<CartScreen> {
           title: Text("Your Cart"),
         ),
         bottomSheet: InkWell(
-          onTap: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, CreateCustomerForm.routeName, (route) => false,
-                arguments: cart.items.values.toList());
-          },
+          onTap: cart.totalAmount > 0
+              ? () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, CreateCustomerForm.routeName, (route) => false,
+                      arguments: cart.items.values.toList());
+                }
+              : null,
           child: Container(
             child: Center(
                 child: Text(

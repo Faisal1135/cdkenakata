@@ -1,3 +1,4 @@
+import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,10 @@ class AddToCart extends StatelessWidget {
                 "assets/icons/add_to_cart.svg",
               ),
               onPressed: () {
+                // wooCommerce.getShippingMethods().then((shp) {
+                //   shp.forEach((e) => e.toJson());
+                // });
+
                 Provider.of<CartProvider>(context, listen: false)
                     .addToItems(product: product);
               },

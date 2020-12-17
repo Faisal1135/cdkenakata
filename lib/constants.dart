@@ -24,3 +24,8 @@ final List<String> imageList = [
   "https://cdn.pixabay.com/photo/2019/12/20/00/03/road-4707345_960_720.jpg",
   "https://cdn.pixabay.com/photo/2016/11/22/07/09/spruce-1848543__340.jpg"
 ];
+
+List<Map<String, String>> paymentMethods = [
+  {"softtech_bkash": "bKash"},
+  {"cod": "Cash on Delivary"},
+];

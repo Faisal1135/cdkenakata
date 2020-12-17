@@ -34,6 +34,7 @@ class CatagoriesProduct extends StatelessWidget {
               child: Text('There is no item in this Catagories'),
             );
           }
+
           return buildProductGrid(snapshot.data);
         },
       ),

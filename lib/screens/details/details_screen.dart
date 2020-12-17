@@ -9,6 +9,7 @@ class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key key, this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(product.variations);
     return Scaffold(
       // each product have a color
 
