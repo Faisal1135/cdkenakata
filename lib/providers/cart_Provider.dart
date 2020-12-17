@@ -5,27 +5,36 @@ class Cart {
   final String id;
   final WooProduct products;
   final int quantity;
+  final WooProductVariation variation;
+  final double price;
   Cart({
     this.id,
     this.products,
     this.quantity,
+    this.variation,
+    this.price,
   });
 
   Cart copyWith({
     String id,
     WooProduct products,
     int quantity,
+    WooProductVariation variation,
+    double price,
   }) {
     return Cart(
       id: id ?? this.id,
       products: products ?? this.products,
       quantity: quantity ?? this.quantity,
+      variation: variation ?? this.variation,
+      price: price ?? this.price,
     );
   }
 
   @override
-  String toString() =>
-      'Cart(id: $id, products: $products, quantity: $quantity)';
+  String toString() {
+    return 'Cart(id: $id, products: $products, quantity: $quantity, variation: $variation, price: $price)';
+  }
 
   @override
   bool operator ==(Object o) {
@@ -34,11 +43,19 @@ class Cart {
     return o is Cart &&
         o.id == id &&
         o.products == products &&
-        o.quantity == quantity;
+        o.quantity == quantity &&
+        o.variation == variation &&
+        o.price == price;
   }
 
   @override
-  int get hashCode => id.hashCode ^ products.hashCode ^ quantity.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        products.hashCode ^
+        quantity.hashCode ^
+        variation.hashCode ^
+        price.hashCode;
+  }
 }
 
 class CartProvider extends ChangeNotifier {
@@ -52,12 +69,14 @@ class CartProvider extends ChangeNotifier {
     double total = 0.0;
 
     _items.forEach((k, cart) {
-      total += double.tryParse(cart.products.price) * cart.quantity;
+      total += cart.price * cart.quantity;
     });
     return total;
   }
 
-  void addToItems({WooProduct product}) {
+  void addToItems(
+      {@required WooProduct product, WooProductVariation variation}) {
+    String price = variation?.price ?? product.price;
     if (_items.containsKey(product.id.toString())) {
       // changing quantity
       _items.update(product.id.toString(), (existingCart) {
@@ -69,7 +88,9 @@ class CartProvider extends ChangeNotifier {
         () => Cart(
           id: DateTime.now().microsecondsSinceEpoch.toString(),
           products: product,
+          price: double.parse(price),
           quantity: 1,
+          variation: variation,
         ),
       );
     }

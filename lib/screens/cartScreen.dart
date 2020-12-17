@@ -29,7 +29,10 @@ class _CartScreenState extends State<CartScreen> {
               ? () {
                   Navigator.pushNamedAndRemoveUntil(
                       context, CreateCustomerForm.routeName, (route) => false,
-                      arguments: cart.items.values.toList());
+                      arguments: [
+                        cart.items.values.toList(),
+                        cart.totalAmount
+                      ]);
                 }
               : null,
           child: Container(

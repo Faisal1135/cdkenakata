@@ -7,6 +7,8 @@ class ProductProvider extends ChangeNotifier {
   List<WooProduct> get products => [..._products];
   List<WooProductCategory> _tags = List<WooProductCategory>();
   List<WooProductCategory> get tags => [..._tags];
+  List<WooProductVariation> _variations = [];
+  List<WooProductVariation> get variations => [..._variations];
 
   int pageNo = 1;
   bool hasData = true;
@@ -29,6 +31,16 @@ class ProductProvider extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<List<WooProductVariation>> fetchProductsVariations(
+      WooProduct product) async {
+    if (product.variations.isEmpty) {
+      return List<WooProductVariation>();
+    }
+    final fetchVariation =
+        await wooCommerce.getProductVariations(productId: product.id);
+    return fetchVariation;
   }
 
   Future<List<WooProduct>> fetchProductByTags(WooProductCategory tag) async {

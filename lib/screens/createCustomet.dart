@@ -60,9 +60,19 @@ Future<wo.WooOrder> createCustomer(
       postcode: data["bPostCode"],
       country: "BN");
 
-  final cart = items
-      .map((i) => {"product_id": i.products.id, "quantity": i.quantity})
-      .toList();
+  final cart = items.map((i) {
+    if (i.variation != null) {
+      return {
+        "product_id": i.products.id,
+        "quantity": i.quantity,
+        "variation_id": i.variation.id
+      };
+    }
+    return {
+      "product_id": i.products.id,
+      "quantity": i.quantity,
+    };
+  }).toList();
 
   final customer = {
     "payment_method": data["payment"].toString().split("/").first,
@@ -164,7 +174,10 @@ class _CreateCustomerFormState extends State<CreateCustomerForm> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormBuilderState>();
-    final cartItem = ModalRoute.of(context).settings.arguments as List<Cart>;
+    final args = ModalRoute.of(context).settings.arguments as List;
+    final cartItem = args.first as List<Cart>;
+    final totalPrice = args.last as double;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
@@ -233,6 +246,10 @@ class _CreateCustomerFormState extends State<CreateCustomerForm> {
                                 getAddress(context, "Shipping Address", "s"),
                           )
                         : Container(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('You Need TO PAY $totalPrice'),
                     SizedBox(
                       height: 20,
                     ),

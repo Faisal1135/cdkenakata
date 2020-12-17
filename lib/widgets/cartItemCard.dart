@@ -56,8 +56,11 @@ class CartitemCard extends StatelessWidget {
 
 Widget _buildCartItem(BuildContext context, Cart currentCart) {
   final prod = currentCart.products;
-  final price =
-      currentCart.quantity * double.tryParse(currentCart.products.price) ?? 0.0;
+  final price = currentCart.quantity * currentCart.price ?? 0.0;
+  String subtxt = prod.categories.first.name;
+  if (currentCart.variation != null) {
+    subtxt = currentCart.variation.attributes.first.option;
+  }
   return Consumer<CartProvider>(
     builder: (BuildContext context, CartProvider cart, Widget child) =>
         Container(
@@ -93,7 +96,7 @@ Widget _buildCartItem(BuildContext context, Cart currentCart) {
                         ),
                         SizedBox(height: 10.0),
                         Text(
-                          prod.status,
+                          subtxt,
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,

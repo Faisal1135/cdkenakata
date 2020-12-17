@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:woocommerce/woocommerce.dart';
 
-import 'add_to_cart.dart';
-import 'counter_with_fav_btn.dart';
 import 'description.dart';
 import 'product_title_with_image.dart';
 
@@ -16,12 +15,30 @@ class Body extends StatelessWidget {
     return ListView(
       children: [
         ProductTitleWithImage(product: product),
+
         Description(product: product),
-        CounterWithFavBtn(),
-        AddToCart(product: product)
+        // CounterWithFavBtn(),
+        // AddToCart(product: product)
       ],
     );
   }
+}
+
+Widget getChips(WooProduct product) {
+  return FormBuilderChoiceChip(
+    alignment: WrapAlignment.spaceEvenly,
+    attribute: 'payment',
+    decoration: InputDecoration(
+      labelText: 'Select a Variation',
+    ),
+    onChanged: (val) {},
+    options: product.attributes.first.options
+        .map((item) => FormBuilderFieldOption(
+              value: item,
+              child: Text(item),
+            ))
+        .toList(),
+  );
 }
 
 // SizedBox(
