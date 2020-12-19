@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woocommerce/woocommerce.dart';
+import 'package:logger/logger.dart';
 
 const kTextColor = Color(0xFF535353);
 const kTextLightColor = Color(0xFFACACAC);
@@ -29,3 +30,5 @@ List<Map<String, String>> paymentMethods = [
   {"softtech_bkash": "bKash"},
   {"cod": "Cash on Delivary"},
 ];
+
+var logger = Logger();

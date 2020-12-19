@@ -1,5 +1,7 @@
 import 'package:cdkenakata/constants.dart';
+import 'package:cdkenakata/helpers/functions.dart';
 import 'package:cdkenakata/providers/cart_Provider.dart';
+import 'package:cdkenakata/screens/orderScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -299,41 +301,23 @@ class _CreateCustomerFormState extends State<CreateCustomerForm> {
 
                           await createCustomer(
                                   _formKey.currentState.value, isSame, cartItem)
+                              .then((wo) {
+                                addtosharedPref(wo.id.toString());
+                                return wo;
+                              })
                               .then(
-                                (wo) => showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return AlertDialog(
-                                      title: Text(
-                                          'Your Order Placed Successfully,id- ${wo.id}'),
-                                      actions: [
-                                        FlatButton(
-                                            onPressed: () {
-                                              Navigator.pop(ctx);
-                                            },
-                                            child: Text('Okay')),
-                                      ],
-                                    );
-                                  },
-                                ),
+                                (wo) => basicAlert(
+                                        context,
+                                        "Order placed Succesfull",
+                                        "Your Order ID - ${wo.status} ${wo.id}")
+                                    .show()
+                                    .then((_) => Navigator.pushNamed(
+                                        context, OrderScreen.routeName)),
                               )
-                              .catchError((e) => showDialog(
-                                    context: context,
-                                    builder: (ctx) {
-                                      return AlertDialog(
-                                        title: Text('Somethings Went Wrong '),
-                                        content: Text(e.toString()),
-                                        actions: [
-                                          FlatButton(
-                                              onPressed: () {
-                                                Navigator.pop(ctx);
-                                              },
-                                              child: Text('Okay')),
-                                        ],
-                                      );
-                                    },
-                                  ));
+                              .catchError((e) => basicAlert(
+                                  context, "Somethings went Wrong", "$e"));
                         }
+
                         setState(() {
                           isLoading = false;
                         });

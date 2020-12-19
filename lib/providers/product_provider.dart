@@ -5,6 +5,8 @@ import 'package:woocommerce/woocommerce.dart';
 class ProductProvider extends ChangeNotifier {
   List<WooProduct> _products = List<WooProduct>();
   List<WooProduct> get products => [..._products];
+  List<WooProduct> _catproducts = List<WooProduct>();
+  List<WooProduct> get catproducts => [..._catproducts];
   List<WooProductCategory> _tags = List<WooProductCategory>();
   List<WooProductCategory> get tags => [..._tags];
   List<WooProductVariation> _variations = [];
@@ -12,6 +14,7 @@ class ProductProvider extends ChangeNotifier {
 
   int pageNo = 1;
   bool hasData = true;
+  int catpage = 1;
 
   List<WooProductCategory> get fetchHomeCat =>
       tags.where((cat) => showCat.contains(cat.id)).toList();
@@ -43,13 +46,26 @@ class ProductProvider extends ChangeNotifier {
     return fetchVariation;
   }
 
-  Future<List<WooProduct>> fetchProductByTags(WooProductCategory tag) async {
+  Future<void> fetchProductByTags(WooProductCategory tag,
+      [bool isSameTag = false]) async {
     if (tag.count == 0) {
       return [];
     }
-    final productByTAG =
-        await wooCommerce.getProducts(category: tag.id.toString());
-    return productByTAG;
+
+    if (isSameTag) {
+      final wooProd = catproducts;
+      final productByTAG = await wooCommerce.getProducts(
+          category: tag.id.toString(), page: 2, perPage: 100);
+      wooProd.addAll(productByTAG);
+      _catproducts = wooProd;
+      catpage++;
+      notifyListeners();
+    }
+
+    final productByTAG = await wooCommerce.getProducts(
+        category: tag.id.toString(), perPage: 100);
+    _catproducts = productByTAG;
+    notifyListeners();
   }
 
   Future<void> fetchTags() async {

@@ -1,9 +1,11 @@
 import 'package:cdkenakata/providers/cart_Provider.dart';
+import 'package:cdkenakata/providers/orderProvider.dart';
 import 'package:cdkenakata/providers/product_provider.dart';
 import 'package:cdkenakata/screens/allCatagories.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:cdkenakata/screens/catagoriesProduct.dart';
 import 'package:cdkenakata/screens/createCustomet.dart';
+import 'package:cdkenakata/screens/orderScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './constants.dart';
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: ProductProvider()),
         ChangeNotifierProvider.value(value: CartProvider()),
+        ChangeNotifierProvider.value(value: Order()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -39,6 +42,7 @@ class MyApp extends StatelessWidget {
           CreateCustomerForm.routeName: (context) => CreateCustomerForm(),
           CatagoriesProduct.routeName: (context) => CatagoriesProduct(),
           CartScreen.routerName: (context) => CartScreen(),
+          OrderScreen.routeName: (context) => OrderScreen()
         },
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:woocommerce/woocommerce.dart';
 
 import '../../../constants.dart';
@@ -19,24 +18,13 @@ class ProductTitleWithImage extends StatelessWidget {
       children: [
         Hero(
           tag: "${product.id}",
-          child: GFCarousel(
-            viewportFraction: 0.9,
-            pagination: true,
-            enlargeMainPage: true,
-            activeIndicator: Colors.amber,
-            aspectRatio: 5 / 3,
-            items: imageList.map(
-              (url) {
-                return Container(
-                  margin: EdgeInsets.all(8.0),
-                  child: CachedNetworkImage(
-                    imageUrl: product.images.first.src,
-                    fit: BoxFit.cover,
-                    width: 1000,
-                  ),
-                );
-              },
-            ).toList(),
+          child: Container(
+            margin: EdgeInsets.all(8.0),
+            child: CachedNetworkImage(
+              imageUrl: product.images.first.src,
+              fit: BoxFit.cover,
+              width: 1000,
+            ),
           ),
         ),
         Padding(

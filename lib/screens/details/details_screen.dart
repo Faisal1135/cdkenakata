@@ -6,7 +6,6 @@ import 'package:cdkenakata/screens/details/components/description.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:woocommerce/woocommerce.dart';
@@ -29,15 +28,10 @@ class DetailsScreen extends StatelessWidget {
                 Provider.of<CartProvider>(context, listen: false)
                     .addToItems(product: product);
 
-                showDialog(
-                    context: context,
-                    builder: (ctx) {
-                      return AlertDialog(
-                        title: Text('Product Added to Cart'),
-                      );
-                    });
+                final alert = createAlertForCart(context, product.name);
+                alert.show();
                 Future.delayed(Duration(seconds: 1))
-                    .then((_) => Navigator.pop(context));
+                    .then((_) => alert.dismiss());
               },
               label: Icon(Icons.add_shopping_cart),
             )
@@ -64,25 +58,15 @@ class DetailsScreen extends StatelessWidget {
                 return ListView(
                   children: [
                     Hero(
-                      tag: "${product.id}",
-                      child: GFCarousel(
-                        viewportFraction: 0.9,
-                        pagination: true,
-                        enlargeMainPage: true,
-                        items: imageList.map(
-                          (url) {
-                            return Container(
-                              margin: EdgeInsets.all(8.0),
-                              child: CachedNetworkImage(
-                                imageUrl: product.images.first.src,
-                                fit: BoxFit.cover,
-                                width: 1000,
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    ),
+                        tag: "${product.id}",
+                        child: Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: product.images.first.src,
+                            fit: BoxFit.cover,
+                            width: 1000,
+                          ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPaddin),
@@ -154,6 +138,7 @@ class _ProductWithVariationState extends State<ProductWithVariation> {
           ),
         ),
         FormBuilderChoiceChip(
+          selectedColor: Colors.deepPurple,
           alignment: WrapAlignment.spaceEvenly,
           attribute: 'payment',
           decoration: InputDecoration(
@@ -175,9 +160,14 @@ class _ProductWithVariationState extends State<ProductWithVariation> {
           height: kDefaultPaddin,
         ),
         RaisedButton.icon(
-          onPressed: () {
+          color: Colors.pink.shade300,
+          onPressed: () async {
             Provider.of<CartProvider>(context, listen: false)
                 .addToItems(product: product, variation: selectedVariation);
+
+            final alert = createAlertForCart(context, product.name);
+            alert.show();
+            Future.delayed(Duration(seconds: 1)).then((_) => alert.dismiss());
           },
           icon: Icon(Icons.add_shopping_cart_rounded),
           label: Text('Add to Cart'),

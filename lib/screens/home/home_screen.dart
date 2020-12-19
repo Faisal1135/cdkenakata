@@ -26,6 +26,10 @@ class HomeScreen extends StatelessWidget {
           final prodcuts = prodcutsProv.products;
 
           return EasyRefresh.custom(
+            header: BezierHourGlassHeader(),
+            onRefresh: () =>
+                Provider.of<ProductProvider>(context, listen: false)
+                    .fetchtagAndProd(),
             onLoad: () => Provider.of<ProductProvider>(context, listen: false)
                 .fetchAndAddProducts(),
             slivers: [

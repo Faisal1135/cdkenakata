@@ -27,8 +27,7 @@ class _CartScreenState extends State<CartScreen> {
         bottomSheet: InkWell(
           onTap: cart.totalAmount > 0
               ? () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, CreateCustomerForm.routeName, (route) => false,
+                  Navigator.pushNamed(context, CreateCustomerForm.routeName,
                       arguments: [
                         cart.items.values.toList(),
                         cart.totalAmount

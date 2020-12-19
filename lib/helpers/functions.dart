@@ -3,11 +3,14 @@ import 'package:cdkenakata/providers/cart_Provider.dart';
 import 'package:cdkenakata/screens/allCatagories.dart';
 import 'package:cdkenakata/screens/cartScreen.dart';
 import 'package:cdkenakata/screens/catagoriesProduct.dart';
+import 'package:cdkenakata/screens/orderScreen.dart';
 import 'package:cdkenakata/widgets/badge.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:getwidget/shape/gf_avatar_shape.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/details/details_screen.dart';
 
@@ -45,6 +48,33 @@ Widget buildProductGrid(List<WooProduct> products) {
   );
 }
 
+Alert createAlertForCart(
+  BuildContext context,
+  String name,
+) {
+  return Alert(
+      context: context,
+      title: "Cart Updated !!",
+      desc: "$name added to the Cart");
+}
+
+Alert basicAlert(BuildContext context, String title, String description) {
+  return Alert(context: context, title: title, desc: description);
+}
+
+Future<void> addtosharedPref(String orderId) async {
+  final _pref = await SharedPreferences.getInstance();
+  final orderlst = _pref.getStringList("order") ?? [];
+  orderlst.add(orderId);
+  _pref.setStringList("order", orderlst);
+}
+
+Future<List<String>> getOrders() async {
+  final _pref = await SharedPreferences.getInstance();
+  final orderlst = _pref.getStringList("order") ?? [];
+  return orderlst;
+}
+
 AppBar buildAppBar(BuildContext context, String title) {
   return AppBar(
     title: Text(
@@ -80,7 +110,11 @@ AppBar buildAppBar(BuildContext context, String title) {
               Navigator.of(context).pushNamed(CartScreen.routerName),
         ),
       ),
-      SizedBox(width: kDefaultPaddin / 2)
+      SizedBox(width: kDefaultPaddin / 2),
+      IconButton(
+        icon: Icon(Icons.notification_important),
+        onPressed: () => Navigator.pushNamed(context, OrderScreen.routeName),
+      )
     ],
   );
 }
