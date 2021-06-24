@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:woocommerce/woocommerce.dart';
 
 class ProductProvider extends ChangeNotifier {
-  List<WooProduct> _products = List<WooProduct>();
+  List<WooProduct> _products = <WooProduct>[];
   List<WooProduct> get products => [..._products];
-  List<WooProduct> _catproducts = List<WooProduct>();
+  List<WooProduct> _catproducts = <WooProduct>[];
   List<WooProduct> get catproducts => [..._catproducts];
-  List<WooProductCategory> _tags = List<WooProductCategory>();
+  List<WooProductCategory> _tags = <WooProductCategory>[];
   List<WooProductCategory> get tags => [..._tags];
   List<WooProductVariation> _variations = [];
   List<WooProductVariation> get variations => [..._variations];
@@ -39,7 +39,7 @@ class ProductProvider extends ChangeNotifier {
   Future<List<WooProductVariation>> fetchProductsVariations(
       WooProduct product) async {
     if (product.variations.isEmpty) {
-      return List<WooProductVariation>();
+      return <WooProductVariation>[];
     }
     final fetchVariation =
         await wooCommerce.getProductVariations(productId: product.id);

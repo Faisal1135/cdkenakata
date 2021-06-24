@@ -12,7 +12,7 @@ class Order extends ChangeNotifier {
   }
 
   Future<void> fetchOrders(List<int> oid) async {
-    final orderLst = List<WooOrder>();
+    final orderLst = <WooOrder>[];
     Future.forEach(oid, (id) async {
       final ord = await fetchOrderByid(id);
       orderLst.add(ord);
